@@ -33,7 +33,7 @@ document.getElementById("registration-form").addEventListener("submit", async (e
   const password = document.getElementById("password").value;
   const regCode = generateRegCode();
 
-  // хөнгөлөлт = дунд нас бол 10%, ахмад бол 15% гэж үзэх жишээ
+  // хөнгөлөлт = дунд нас бол 10%, ахмад бол 15%
   let discount = "";
   if (ageGroup === "Дунд нас") discount = "10%";
   else if (ageGroup === "Ахмад") discount = "15%";
