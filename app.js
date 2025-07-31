@@ -1,37 +1,26 @@
-// Firebase Config – өөрийн firebaseConfig-аар солино
+// Firebase config
 const firebaseConfig = {
-  apiKey: "ТАНЫ_API_KEY",
+  apiKey: "YOUR_API_KEY",
   authDomain: "oyunsanaa-burtgel.firebaseapp.com",
   projectId: "oyunsanaa-burtgel",
   storageBucket: "oyunsanaa-burtgel.appspot.com",
-  messagingSenderId: "XXXXXXXXXXXX",
-  appId: "1:XXXXXXXXXXXX:web:XXXXXXXXXXXXXX",
-  measurementId: "G-XXXXXXXXXX"
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
-// Firebase Init
-firebase.initializeApp(firebaseConfig);
+// Firebase init
+const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+console.log("App initialized");
 
-// Бүртгэлийн дугаар үүсгэх
+// Бүртгэлийн код үүсгэгч
 function generateRegCode() {
   const random = Math.floor(100000 + Math.random() * 900000);
   return `OS-${random}`;
 }
 
-// Насны ангиллаас хамаарч хөнгөлөлт тодорхойлох
-function getDiscountByAgeGroup(ageGroup) {
-  switch (ageGroup) {
-    case "Бага нас": return "30% хөнгөлөлт";
-    case "Өсвөр нас": return "25% хөнгөлөлт";
-    case "Залуу нас": return "20% хөнгөлөлт";
-    case "Дунд нас": return "10% хөнгөлөлт";
-    default: return "Хөнгөлөлтгүй";
-  }
-}
-
-// Form submit
-document.getElementById("registration-form").addEventListener("submit", function(e) {
+// Форм илгээх
+document.getElementById("registration-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const name = document.getElementById("name").value;
@@ -43,29 +32,25 @@ document.getElementById("registration-form").addEventListener("submit", function
   const ageGroup = document.getElementById("ageGroup").value;
   const password = document.getElementById("password").value;
   const regCode = generateRegCode();
-  const discount = getDiscountByAgeGroup(ageGroup);
 
-  // Firebase-д хадгалах
-  db.collection("registrations").add({
-    name,
-    gender,
-    birthYear,
-    zodiac,
-    phone,
-    email,
-    ageGroup,
-    password,
-    regCode,
-    discount,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(() => {
-    alert("Бүртгэл амжилттай!");
-    document.getElementById("registration-form").reset();
-  }).catch((error) => {
-    alert("Бүртгэл амжилтгүй! Алдаа: " + error.message);
-  });
+  // хөнгөлөлт = дунд нас бол 10%, ахмад бол 15% гэж үзэх жишээ
+  let discount = "";
+  if (ageGroup === "Дунд нас") discount = "10%";
+  else if (ageGroup === "Ахмад") discount = "15%";
 
-  // UI дээр автоматаар бөглөх
+  // Form дээр харагдуулах
   document.getElementById("discount").value = discount;
   document.getElementById("regCode").value = regCode;
+
+  // Firestore-д хадгалах
+  try {
+    await db.collection("registrations").add({
+      name, gender, birthYear, zodiac, phone, email,
+      ageGroup, discount, password, regCode,
+      timestamp: new Date()
+    });
+    alert("Бүртгэл амжилттай!");
+  } catch (err) {
+    alert("Бүртгэл амжилтгүй: " + err.message);
+  }
 });
