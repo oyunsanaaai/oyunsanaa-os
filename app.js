@@ -1,15 +1,16 @@
 // Firebase config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyDQYIDk2MdXVoOx_TM9G_XcMj6AVRSpig",
   authDomain: "oyunsanaa-burtgel.firebaseapp.com",
   projectId: "oyunsanaa-burtgel",
   storageBucket: "oyunsanaa-burtgel.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  messagingSenderId: "374606141353",
+  appId: "1:374606141353:web:c4a137094f533c2efd16b8",
+  measurementId: "G-WSGMQ7TMXD"
 };
 
 // Firebase init
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 console.log("App initialized");
 
@@ -33,16 +34,13 @@ document.getElementById("registration-form").addEventListener("submit", async (e
   const password = document.getElementById("password").value;
   const regCode = generateRegCode();
 
-  // хөнгөлөлт = дунд нас бол 10%, ахмад бол 15%
   let discount = "";
   if (ageGroup === "Дунд нас") discount = "10%";
   else if (ageGroup === "Ахмад") discount = "15%";
 
-  // Form дээр харагдуулах
   document.getElementById("discount").value = discount;
   document.getElementById("regCode").value = regCode;
 
-  // Firestore-д хадгалах
   try {
     await db.collection("registrations").add({
       name, gender, birthYear, zodiac, phone, email,
