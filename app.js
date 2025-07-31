@@ -1,16 +1,17 @@
+
 // Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyDQYIDk2MdXVoOx_TM9G_XcMj6AVRSpig",
+  apiKey: "AIzaSyDQIYDk2MdXvVo0x_TMPG_XcMj6AVRSpig",
   authDomain: "oyunsanaa-burtgel.firebaseapp.com",
   projectId: "oyunsanaa-burtgel",
   storageBucket: "oyunsanaa-burtgel.appspot.com",
   messagingSenderId: "374606141353",
-  appId: "1:374606141353:web:c4a137094f533c2efd16b8",
+  appId: "1:374606141353:web:c4a1370945f33c2efd16b8",
   measurementId: "G-WSGMQ7TMXD"
 };
 
 // Firebase init
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 console.log("App initialized");
 
