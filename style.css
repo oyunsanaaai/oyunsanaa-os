@@ -2,15 +2,28 @@
 body {
   font-family: sans-serif;
   padding: 20px;
+  background-color: #F1E3D5;
 }
 form {
-  max-width: 400px;
+  max-width: 500px;
   margin: auto;
-  display: flex;
-  flex-direction: column;
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+}
+label {
+  display: block;
+  margin-top: 10px;
 }
 input, select, button {
-  margin: 8px 0;
-  padding: 10px;
-  font-size: 1em;
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+button {
+  background-color: #C16A5A;
+  color: white;
+  border: none;
+  margin-top: 15px;
+  cursor: pointer;
 }

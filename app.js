@@ -1,28 +1,18 @@
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDQIYDk2MdXvVo0x_TMPG_XcMj6AVRSpig",
   authDomain: "oyunsanaa-burtgel.firebaseapp.com",
   projectId: "oyunsanaa-burtgel",
   storageBucket: "oyunsanaa-burtgel.appspot.com",
-  messagingSenderId: "374606141353",
-  appId: "1:374606141353:web:c4a1370945f33c2efd16b8",
-  measurementId: "G-WSGMQ7TMXD"
+  messagingSenderId: "xxx",
+  appId: "xxx",
+  measurementId: "xxx"
 };
 
-// Firebase init
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-console.log("App initialized");
 
-// Бүртгэлийн код үүсгэгч
-function generateRegCode() {
-  const random = Math.floor(100000 + Math.random() * 900000);
-  return `OS-${random}`;
-}
-
-// Форм илгээх
-document.getElementById("registration-form").addEventListener("submit", async (e) => {
+document.getElementById("registrationForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
   const name = document.getElementById("name").value;
@@ -33,23 +23,29 @@ document.getElementById("registration-form").addEventListener("submit", async (e
   const email = document.getElementById("email").value;
   const ageGroup = document.getElementById("ageGroup").value;
   const password = document.getElementById("password").value;
-  const regCode = generateRegCode();
 
-  let discount = "";
-  if (ageGroup === "Дунд нас") discount = "10%";
-  else if (ageGroup === "Ахмад") discount = "15%";
+  const discount = "10%";
+  const regCode = "OS-" + Math.floor(100000 + Math.random() * 900000);
 
   document.getElementById("discount").value = discount;
   document.getElementById("regCode").value = regCode;
 
   try {
-    await db.collection("registrations").add({
-      name, gender, birthYear, zodiac, phone, email,
-      ageGroup, discount, password, regCode,
+    await db.collection("registration").add({
+      name,
+      gender,
+      birthYear,
+      zodiac,
+      phone,
+      email,
+      ageGroup,
+      password,
+      discount,
+      regCode,
       timestamp: new Date()
     });
     alert("Бүртгэл амжилттай!");
-  } catch (err) {
-    alert("Бүртгэл амжилтгүй: " + err.message);
+  } catch (error) {
+    alert("Бүртгэл амжилтгүй: " + error.message);
   }
 });
